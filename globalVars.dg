@@ -1,0 +1,43 @@
+string Utils.getGlobalVarValue(string settingName)
+{
+    /**
+     * Return a global variable for the specified settingName.
+     *
+     * @license MIT
+     *
+     * @return string Variable value.
+     */
+	retVal = "";
+	uppered = settingName.toUpperCase();
+	if(GlobalVars[VarName == uppered].count() > 0)
+	{
+		retVal = GlobalVars[VarName == uppered].VarValue;
+	}
+	return retVal;
+}
+
+void Utils.setGlobalVarValue(string settingName, string settingValue)
+{
+    /**
+     * Set a global variable to the specified value.
+     *
+     * @license MIT
+     */
+
+	uppered = settingName.toUpperCase();
+	if(GlobalVars[VarName == uppered].count() > 0)
+	{
+		val = GlobalVars[VarName == uppered];
+		val.VarValue=settingValue;
+	}
+	else
+	{
+		whatever = insert into GlobalVars
+[
+	Added_User=zoho.loginuser
+	VarName=uppered
+	VarValue=settingValue
+];
+	}
+}
+

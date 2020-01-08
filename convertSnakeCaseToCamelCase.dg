@@ -1,0 +1,32 @@
+string Utils.convertSnakeCaseToCamelCase(string snake_case)
+{
+    /**
+     * Covert the specified snake_case'd string to CamelCase format.
+     *
+     * @license MIT
+     *
+     * @return string Variable value.
+     */
+	result = "";
+	nextToUpper = true;
+	for each  c in snake_case.toList("")
+	{
+		if(nextToUpper)
+		{
+			result = result + c.toUppercase();
+			nextToUpper = false;
+		}
+		else
+		{
+			if(c == "_")
+			{
+				nextToUpper = true;
+			}
+			else
+			{
+				result = result + c.toLowercase();
+			}
+		}
+	}
+	return result;
+}
