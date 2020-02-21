@@ -1,0 +1,105 @@
+<%{
+	// Styling - General.
+	padding = "15px";
+	// Styling - Icon Type Text.
+	iconTypeTextSize = "8";
+	// Styling - Icons.
+	iconSize = "7";
+	iconBgColor = "LightGrey";
+	// Data stuff - Icons per Row.
+	maxIconsPerRow = 6;
+	iconPcWidth = "10%";
+	// Data stuff - Output.
+	iconTypeList = {"solid","outline"};
+	rangeFrom = 1;
+	rangeTo = 30;
+	// Deal with search parameter.
+	if(ifnull(search,"").length() > 0)
+	{
+		iconNameList = (Icon[Icon_Name.contains(search)].Icon_Name range from rangeFrom to rangeTo).getAll();
+	}
+	else
+	{
+		iconNameList = (Icon[ID != 0].Icon_Name range from rangeFrom to rangeTo).getAll();
+	}
+	// Nothing found?
+	if(iconNameList.size() == 0)
+	{
+		%>
+		<panel>
+			<pr width="fill">
+			<pc width="80%" padding="<%=padding%>">
+				<text size="<%=iconTypeTextSize%>" italic="true" value="Nothing found for '<%=search%>'."/>
+			</pc>
+			</pr>
+		</panel>
+		<%
+	}
+	else
+	{
+		%>
+		<panel>
+		<%
+		for each  iconType in iconTypeList
+		{
+			%>
+		<pr width="fill">
+			<pc width="80%" padding="<%=padding%>">
+				<text size="<%=iconTypeTextSize%>" bold="true" value="<%=iconType%>"/>
+			</pc>
+		</pr>
+		<pr width="fill">
+			<%
+			iconCtr = 0;
+			for each  iconName in iconNameList
+			{
+				iconCtr = iconCtr + 1;
+				%>
+			<pc width="<%=iconPcWidth%>" vAlign="top" padding="<%=padding%>">
+				<pr>
+					<pc>
+						<image imageType="icon" iconType="<%=iconType%>" value="<%=iconName%>" iconsize="<%=iconSize%>"
+							bgColor="<%=iconBgColor%>" padding="<%=padding%>"/>
+					</pc>
+				</pr>
+				<pr>
+					<pc>
+						<text value="<%=iconName%>"/>
+					</pc>
+				</pr>
+			</pc>
+			<%
+				// End of row is maxIconsPerRow reached and not at the end of the iconNameList.
+				if(iconCtr % maxIconsPerRow == 0 && iconCtr < iconNameList.size())
+				{
+					%>
+		</pr>
+		<pr width="fill">
+			<%
+				}
+			}
+			// Do we need to pad out the pc tags to match the maxIconsPerRow value?
+			pcCount = iconCtr % maxIconsPerRow;
+			if(pcCount != 0)
+			{
+				missingPCs = maxIconsPerRow - pcCount;
+				nonsense = "".leftpad(missingPCs - 1).toList(" ");
+				for each  n in nonsense
+				{
+					%>
+					<pc width="<%=iconPcWidth%>">
+						<text value=""/>
+					</pc>
+					<%
+				}
+			}
+			%>
+		</pr>
+		<%
+		}
+		%>
+	</panel>
+<%
+	}
+
+}%>
